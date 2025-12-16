@@ -1,44 +1,141 @@
-import React from 'react';
-import { Volume2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Volume2, Sparkles, Zap } from 'lucide-react';
+import { mockProgramGeneration } from '../services/mockApi';
+import ProgramViewer from '../components/ProgramViewer';
 
 interface HomeProps {
   lastMessage: string | null;
 }
 
+type OnboardingState = 'WELCOME' | 'GENERATING' | 'PROGRAM_VIEW';
+
 const Home: React.FC<HomeProps> = ({ lastMessage }) => {
+  const [state, setState] = useState<OnboardingState>('WELCOME');
+  const [programData, setProgramData] = useState<string | null>(null);
+
+  // Auto-trigger welcome notification simulation
+  const [showWelcomeBubble, setShowWelcomeBubble] = useState(false);
+
+  useEffect(() => {
+    if (state === 'WELCOME') {
+        const timer = setTimeout(() => setShowWelcomeBubble(true), 500);
+        return () => clearTimeout(timer);
+    }
+  }, [state]);
+
+  const handleGenerateProgram = async () => {
+    setState('GENERATING');
+    setShowWelcomeBubble(false);
+    
+    // Call mock API
+    const response = await mockProgramGeneration();
+    
+    setProgramData(response.plan_text);
+    setState('PROGRAM_VIEW');
+  };
+
   return (
-    <div className="h-full w-full relative flex flex-col items-center pt-16">
-      {/* Top right volume icon */}
-      <div className="absolute top-8 right-6 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-700 cursor-pointer hover:scale-105 transition">
-        <Volume2 size={24} />
+    <div className="h-full w-full relative flex flex-col items-center pt-12 overflow-hidden">
+      
+      {/* Background Decor Elements */}
+      <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-80 h-80 bg-orange-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+
+      {/* Top Bar */}
+      <div className="w-full px-8 flex justify-between items-center z-20">
+         <h1 className="text-lg font-bold text-gray-800 tracking-tight">COACH MIKE</h1>
+         <div className="w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full shadow-sm flex items-center justify-center text-gray-700 cursor-pointer hover:scale-105 active:scale-95 transition-all">
+            <Volume2 size={20} />
+         </div>
       </div>
 
-      <div className="mt-10 text-center z-10">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Start your Journey</h1>
-        <p className="text-gray-500 text-sm px-10">
-          Coach Mike's got your back. Say hey and let's get moving!
-        </p>
-      </div>
-
-      {/* 3D Avatar Container */}
-      <div className="relative flex-1 w-full max-w-md flex items-end justify-center pb-24">
-         {/* Using a placeholder for the 3D character */}
-        <img 
-          src="https://picsum.photos/seed/coachmike/600/800" 
-          alt="Coach Mike Avatar" 
-          className="h-[60vh] object-contain drop-shadow-2xl mask-image-gradient"
-          style={{
-            maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)'
-          }}
-        />
-
-        {/* Chat Bubble if message exists */}
-        {lastMessage && (
-           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-64 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl rounded-bl-none animate-bounce-in border border-gray-100">
-             <p className="text-gray-700 text-sm font-medium">{lastMessage}</p>
-           </div>
+      {/* Main Content Area */}
+      <div className="flex-1 w-full flex flex-col items-center justify-center relative z-10 px-6 pb-24">
+        
+        {state === 'GENERATING' && (
+             <div className="flex flex-col items-center justify-center animate-fade-in">
+                <div className="relative w-24 h-24 mb-6">
+                    <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+                    <div className="absolute inset-0 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+                    <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-500 animate-pulse" size={32} />
+                </div>
+                <h2 className="text-xl font-bold text-gray-800 mb-2">Building your plan...</h2>
+                <p className="text-gray-500 text-sm">Analyzing your profile & goals</p>
+             </div>
         )}
+
+        {state === 'WELCOME' && (
+            <>
+                <div className="text-center mb-8 animate-fade-in">
+                    <h2 className="text-4xl font-extrabold text-gray-900 mb-2 leading-tight">
+                        Ready to <span className="text-blue-600">Level Up?</span>
+                    </h2>
+                    <p className="text-gray-500 text-base max-w-xs mx-auto leading-relaxed">
+                        Your personalized fitness journey is just one click away.
+                    </p>
+                </div>
+
+                {/* Avatar */}
+                <div className="relative w-full max-w-sm flex items-end justify-center mb-8">
+                    <img 
+                    src="https://picsum.photos/seed/coachmike/600/800" 
+                    alt="Coach Mike Avatar" 
+                    className="h-64 w-auto object-contain drop-shadow-2xl mask-image-gradient animate-fade-in"
+                    style={{
+                        maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
+                        WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
+                    }}
+                    />
+
+                    {/* Chat Bubble Notification */}
+                    <div className={`absolute top-10 right-0 transform transition-all duration-500 ease-out ${showWelcomeBubble ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-4 opacity-0 scale-95'}`}>
+                         <div className="bg-white/90 backdrop-blur-xl p-4 rounded-2xl shadow-xl rounded-bl-none border border-white/50 w-64">
+                            <p className="text-gray-800 text-sm font-medium leading-snug">
+                                Hey Jack! I've analyzed your stats. Ready to build your <span className="text-blue-600 font-bold">Hypertrophy Program</span>?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Hero Action Button */}
+                <button 
+                    onClick={handleGenerateProgram}
+                    className="group relative w-full max-w-xs bg-gray-900 text-white p-4 rounded-2xl shadow-xl shadow-blue-200 hover:shadow-2xl hover:shadow-blue-300 transition-all active:scale-95 flex items-center justify-center gap-3 overflow-hidden"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <span className="relative font-bold text-lg tracking-wide z-10">Generate My Program</span>
+                    <Zap className="relative z-10 group-hover:rotate-12 transition-transform" fill="currentColor" size={20} />
+                </button>
+            </>
+        )}
+
+        {state === 'PROGRAM_VIEW' && programData && (
+             <div className="w-full max-w-md bg-white/80 backdrop-blur-xl rounded-[32px] p-8 shadow-2xl border border-white/50 h-[65vh] flex flex-col animate-fade-in">
+                <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <Zap size={20} fill="currentColor" />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-gray-800">Your Custom Plan</h3>
+                        <p className="text-xs text-gray-400">Week 1 • Hypertrophy Focus</p>
+                    </div>
+                </div>
+                
+                <div className="flex-1 overflow-y-auto no-scrollbar pr-2">
+                    <ProgramViewer content={programData} />
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-gray-100 flex gap-3">
+                    <button className="flex-1 bg-gray-100 text-gray-600 py-3 rounded-xl text-sm font-semibold hover:bg-gray-200 transition active:scale-95">
+                        Adjust
+                    </button>
+                    <button className="flex-[2] bg-blue-600 text-white py-3 rounded-xl text-sm font-semibold shadow-lg shadow-blue-200 hover:bg-blue-700 transition active:scale-95">
+                        Start Workout
+                    </button>
+                </div>
+             </div>
+        )}
+
       </div>
     </div>
   );

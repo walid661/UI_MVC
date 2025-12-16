@@ -42,4 +42,16 @@ export interface Exercise {
 export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
+  isMarkdown?: boolean;
+}
+
+// Data Contract: Chat Response (Simulation RAG)
+export interface ChatResponse {
+  answer: string; // Markdown content
+  sources?: { title: string; score: number }[];
+}
+
+// Data Contract: Generation Response (Le Programme)
+export interface ProgramResponse {
+  plan_text: string; // Markdown content
 }
