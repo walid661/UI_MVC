@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View } from './types';
-import Sidebar from './components/Sidebar';
+import BottomNav from './components/BottomNav';
 import VoiceInput from './components/VoiceInput';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -14,13 +14,10 @@ const App: React.FC = () => {
   const [currentView, setView] = useState<View>(View.HOME);
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   
-  // Note: We are now handling the main generation flow inside Home.tsx using mockApi
-  // The VoiceInput could still be used for generic chat if we wire it up later.
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSendMessage = async (text: string) => {
     setIsLoading(true);
-    // Placeholder for future chat integration
     console.log("Chat input:", text);
     setTimeout(() => {
         setLastMessage("I'm focused on your program right now!");
@@ -50,24 +47,23 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-full max-w-md mx-auto bg-white/50 shadow-2xl overflow-hidden sm:rounded-[40px] sm:h-[95vh] sm:mt-[2.5vh] sm:border-[8px] sm:border-white transition-all duration-300">
+    <div className="relative w-full h-full max-w-md mx-auto bg-white/50 shadow-2xl overflow-hidden sm:rounded-[40px] sm:h-[95vh] sm:mt-[2.5vh] sm:border-[8px] sm:border-white transition-all duration-300 flex flex-col">
       {/* Background Gradient */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 via-white to-orange-50 opacity-80" />
       
-      {/* Sidebar Navigation */}
-      <Sidebar currentView={currentView} setView={setView} />
-
-      {/* Main Content Area */}
-      <main className="h-full w-full">
+      {/* Main Content Area - Added pb-24 for bottom nav space */}
+      <main className="flex-1 w-full overflow-hidden pb-24 relative">
         {renderView()}
       </main>
 
-      {/* Voice/Text Input - Only show when NOT in generated program view (handled nicely via z-index or conditional rendering if needed) */}
-      {/* For this specific flow, let's keep it simple and only show on Profile/Stats/etc or if Home is in welcome state. 
-          For now, we hide it on Home to focus on the Onboarding Action Button flow. 
-      */}
+      {/* Mobile Bottom Navigation */}
+      <BottomNav currentView={currentView} setView={setView} />
+
+      {/* Voice/Text Input */}
       {currentView !== View.HOME && currentView !== View.WORKOUT && (
-        <VoiceInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+        <div className="mb-20"> {/* Adjust for bottom nav */}
+             <VoiceInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+        </div>
       )}
     </div>
   );
