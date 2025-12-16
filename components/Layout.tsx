@@ -1,0 +1,29 @@
+import React, { ReactNode } from 'react';
+
+interface LayoutProps {
+  children: ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
+  return (
+    <div className="min-h-screen w-full bg-[#F2F4F8] flex items-center justify-center font-sans text-slate-900 sm:p-4">
+      {/* Simulation Cadre Mobile */}
+      <div className="relative w-full max-w-[400px] h-[100dvh] sm:h-[850px] bg-white sm:rounded-[40px] shadow-2xl overflow-hidden border-[8px] border-white ring-1 ring-gray-900/5 flex flex-col">
+        
+        {/* Lueurs d'ambiance en arrière-plan */}
+        <div className="absolute top-[-10%] left-[-20%] w-[300px] h-[300px] bg-blue-400/20 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[-20%] w-[300px] h-[300px] bg-indigo-400/20 rounded-full blur-[100px] pointer-events-none" />
+
+        {/* Content Container (Layout provides the frame, children handle the scrolling areas) */}
+        <div className="flex-1 w-full h-full relative z-0">
+          {children}
+        </div>
+        
+        {/* Dégradés de superposition pour adoucir le scroll (Top only, bottom handled by nav area) */}
+        <div className="absolute top-0 left-0 w-full h-8 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
+      </div>
+    </div>
+  );
+};
+
+export default Layout;

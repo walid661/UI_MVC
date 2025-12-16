@@ -1,1 +1,1 @@
-// This component is deprecated. Please use components/BottomNav.tsx
+// This file is deprecated. Please use components/BottomNav.tsx

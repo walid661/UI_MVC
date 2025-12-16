@@ -18,10 +18,10 @@ const VoiceInput: React.FC<VoiceInputProps> = ({ onSendMessage, isLoading }) => 
   };
 
   return (
-    <div className="fixed bottom-6 left-0 right-0 px-6 flex justify-center z-50">
+    <div className="flex justify-center w-full">
       <form 
         onSubmit={handleSubmit}
-        className="w-full max-w-lg bg-white rounded-full shadow-2xl flex items-center p-2 pl-6 transition-all focus-within:ring-2 ring-blue-200"
+        className="w-full bg-white rounded-full shadow-xl flex items-center p-2 pl-6 transition-all focus-within:ring-2 ring-blue-200 border border-gray-100"
       >
         <div className="text-gray-400 mr-3">
             <Mic size={20} />
@@ -31,7 +31,7 @@ const VoiceInput: React.FC<VoiceInputProps> = ({ onSendMessage, isLoading }) => 
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask Coach Mike anything!"
-          className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400"
+          className="flex-1 bg-transparent outline-none text-gray-700 placeholder-gray-400 text-sm"
           disabled={isLoading}
         />
         <button 
