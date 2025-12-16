@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, Sparkles, Zap } from 'lucide-react';
+import { Volume2, Sparkles, Zap, Bot } from 'lucide-react';
 import { mockProgramGeneration } from '../services/mockApi';
 import ProgramViewer from '../components/ProgramViewer';
 
@@ -100,20 +100,18 @@ const Home: React.FC<HomeProps> = ({ lastMessage }) => {
                     </p>
                 </div>
 
-                {/* Avatar */}
-                <div className="relative w-full max-w-sm flex-1 flex items-end justify-center mb-8">
-                    <img 
-                    src="https://picsum.photos/seed/coachmike/600/800" 
-                    alt="Coach Mike Avatar" 
-                    className="h-full max-h-[40vh] w-auto object-contain drop-shadow-2xl mask-image-gradient animate-fade-in"
-                    style={{
-                        maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
-                        WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
-                    }}
-                    />
+                {/* Avatar Placeholder */}
+                <div className="relative w-full max-w-sm flex-1 flex items-end justify-center mb-12">
+                     <div className="relative w-64 h-[40vh] max-h-[340px] rounded-[40px] bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-2xl shadow-blue-200 overflow-hidden animate-fade-in transform hover:scale-[1.02] transition-transform duration-500">
+                        {/* Abstract shapes */}
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-10 translate-x-10"></div>
+                        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-2xl translate-y-10 -translate-x-10"></div>
+                        
+                        <Bot size={120} className="text-white/90 drop-shadow-lg" strokeWidth={1.5} />
+                    </div>
 
                     {/* Chat Bubble Notification */}
-                    <div className={`absolute top-10 right-0 transform transition-all duration-500 ease-out z-20 ${showWelcomeBubble ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-4 opacity-0 scale-95'}`}>
+                    <div className={`absolute top-20 right-0 transform transition-all duration-500 ease-out z-20 ${showWelcomeBubble ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-4 opacity-0 scale-95'}`}>
                          <div className="bg-white/90 backdrop-blur-xl p-4 rounded-2xl shadow-xl rounded-bl-none border border-white/50 w-64">
                             <p className="text-gray-800 text-sm font-medium leading-snug">
                                 Hey Jack! I've analyzed your stats. Ready to build your <span className="text-blue-600 font-bold">Hypertrophy Program</span>?

@@ -36,10 +36,13 @@ const ProgramViewer: React.FC<ProgramViewerProps> = ({ content }) => {
 
           // LI = Une carte d'exercice individuelle
           li: ({node, ...props}) => {
+             const { children, ...rest } = props;
              return (
-                <li className="group relative border-b border-gray-50 last:border-0 p-4 hover:bg-blue-50/50 transition-colors">
+                <li className="group relative border-b border-gray-50 last:border-0 p-4 hover:bg-blue-50/50 transition-colors" {...rest}>
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="text-sm text-gray-600 leading-relaxed pl-2" {...props} />
+                    <div className="text-sm text-gray-600 leading-relaxed pl-2">
+                        {children}
+                    </div>
                 </li>
              )
           },
