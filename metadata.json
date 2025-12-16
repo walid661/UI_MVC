@@ -1,0 +1,7 @@
+{
+  "name": "Coach Mike - Virtual Fitness Companion",
+  "description": "A comprehensive AI-powered fitness coaching application featuring workout tracking, statistics visualization, gamified rewards, and a conversational AI coach interface.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
