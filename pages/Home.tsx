@@ -102,12 +102,13 @@ const Home: React.FC<HomeProps> = ({ lastMessage }) => {
 
                 {/* Avatar Placeholder */}
                 <div className="relative w-full max-w-sm flex-1 flex items-end justify-center mb-12">
-                     <div className="relative w-64 h-[40vh] max-h-[340px] rounded-[40px] bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center shadow-2xl shadow-blue-200 overflow-hidden animate-fade-in transform hover:scale-[1.02] transition-transform duration-500">
+                     {/* Updated to lighter gradient as requested */}
+                     <div className="relative w-64 h-[40vh] max-h-[340px] rounded-[40px] bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center shadow-2xl shadow-blue-100 overflow-hidden animate-fade-in transform hover:scale-[1.02] transition-transform duration-500 border border-white">
                         {/* Abstract shapes */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-10 translate-x-10"></div>
-                        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-2xl translate-y-10 -translate-x-10"></div>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/40 rounded-full blur-2xl -translate-y-10 translate-x-10"></div>
+                        <div className="absolute bottom-0 left-0 w-40 h-40 bg-blue-200/20 rounded-full blur-2xl translate-y-10 -translate-x-10"></div>
                         
-                        <Bot size={120} className="text-white/90 drop-shadow-lg" strokeWidth={1.5} />
+                        <Bot size={120} className="text-blue-600 drop-shadow-md opacity-90" strokeWidth={1.5} />
                     </div>
 
                     {/* Chat Bubble Notification */}

@@ -7,7 +7,11 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-[100dvh] w-full sm:bg-[#F2F4F8] bg-white flex sm:items-center sm:justify-center font-sans text-slate-900 sm:p-4">
-      {/* Simulation Cadre Mobile - Only active on 'sm' screens and up */}
+      {/* 
+        Container Logic:
+        - Mobile (Default): w-full, h-[100dvh] (full viewport), no rounding, no border, no shadow.
+        - Desktop (sm+): Fixed width/height, phone styling (rounded, border, shadow).
+      */}
       <div className="relative w-full h-[100dvh] sm:h-[850px] sm:max-w-[400px] bg-white sm:rounded-[40px] sm:shadow-2xl overflow-hidden sm:border-[8px] sm:border-white sm:ring-1 sm:ring-gray-900/5 flex flex-col transition-all duration-300">
         
         {/* Lueurs d'ambiance en arrière-plan (Desktop only) */}
